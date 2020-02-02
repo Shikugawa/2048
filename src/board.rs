@@ -1,4 +1,7 @@
+extern crate rand;
+
 use crate::number::Number;
+use rand::Rng;
 
 #[derive(Clone, Copy, PartialEq)]
 pub enum CellState {
@@ -105,6 +108,20 @@ impl Board {
     assert!(j <= 3);
     if self.get_cell_state(i, j) == CellState::Fill {
       self.cells[i][j].deactivate();
+    }
+  }
+
+  pub fn pop_cell_number(&mut self) {
+    loop {
+      let rand_x = rand::thread_rng().gen_range(0, 4);
+      let rand_y = rand::thread_rng().gen_range(0, 4);
+
+      if self.get_cell_state(rand_x, rand_y) == CellState::Empty {
+        let helper_rand = rand::thread_rng().gen_range(0, 10);
+        let init_sum = if helper_rand > 8 { 4 } else { 2 };
+        self.activate_cell_with_value(rand_x, rand_y, init_sum);
+        break;
+      }
     }
   }
 
@@ -247,6 +264,47 @@ impl Board {
           },
           Direction::RIGHT,
         )
+      }
+    }
+  }
+  // Move all of number cells to specified direction
+  pub fn move_all_cell(&mut self, direction: Direction) {
+    match direction {
+      Direction::UP => {
+        for _i in 0..4 {
+          for _j in 0..4 {
+            if self.get_cell_state(_j, _i) == CellState::Fill {
+              self.move_cell(Point { i: _j, j: _i }, Direction::UP);
+            }
+          }
+        }
+      }
+      Direction::DOWN => {
+        for _i in 0..4 {
+          for _j in (0..4).rev() {
+            if self.get_cell_state(_j, _i) == CellState::Fill {
+              self.move_cell(Point { i: _j, j: _i }, Direction::DOWN);
+            }
+          }
+        }
+      }
+      Direction::LEFT => {
+        for _i in 0..4 {
+          for _j in 0..4 {
+            if self.get_cell_state(_j, _i) == CellState::Fill {
+              self.move_cell(Point { i: _j, j: _i }, Direction::LEFT);
+            }
+          }
+        }
+      }
+      Direction::RIGHT => {
+        for _i in 0..4 {
+          for _j in (0..4).rev() {
+            if self.get_cell_state(_j, _i) == CellState::Fill {
+              self.move_cell(Point { i: _j, j: _i }, Direction::RIGHT);
+            }
+          }
+        }
       }
     }
   }

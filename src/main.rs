@@ -11,6 +11,12 @@ fn main() {
         b.move_cell(Point { i: 3, j: 2 }, Direction::RIGHT);
         Board::print(&b);
         println!();
+        b.move_all_cell(Direction::UP);
+        Board::print(&b);
+        println!();
+        b.pop_cell_number();
+        Board::print(&b);
+        println!();
     }
 
     {
@@ -19,6 +25,7 @@ fn main() {
         Board::print(&b);
         println!();
         b.move_cell(Point { i: 3, j: 3 }, Direction::LEFT);
+        b.pop_cell_number();
         Board::print(&b);
         println!();
     }
@@ -26,10 +33,21 @@ fn main() {
     {
         println!("==================================================");
         let mut b = Board::new();
-        b.activate_cell(3, 1);
         Board::print(&b);
         println!();
-        b.move_cell(Point { i: 3, j: 1 }, Direction::RIGHT);
+        b.move_all_cell(Direction::LEFT);
+        Board::print(&b);
+        println!();
+        b.pop_cell_number();
+        Board::print(&b);
+        println!();
+        b.move_all_cell(Direction::UP);
+        Board::print(&b);
+        println!();
+        b.pop_cell_number();
+        Board::print(&b);
+        println!();
+        b.move_all_cell(Direction::LEFT);
         Board::print(&b);
         println!();
     }
